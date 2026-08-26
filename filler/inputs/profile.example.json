@@ -1,0 +1,40 @@
+{
+  "schema_version": "1.0",
+  "profile_id": "profile-123456789abc",
+  "identity": {
+    "name": "示例候选人",
+    "contact": {
+      "email": "candidate@example.com",
+      "phone": "13800000000"
+    }
+  },
+  "career": {
+    "career_stage": "应届生",
+    "current_city": "北京",
+    "highest_degree": "硕士",
+    "graduation_date": "2027-06"
+  },
+  "target": {
+    "employment_types": ["full_time"],
+    "primary_roles": ["算法工程师"],
+    "preferred_locations": ["北京", "上海"]
+  },
+  "capabilities": {
+    "skills": [{"name": "Python"}, {"name": "机器学习"}],
+    "languages": ["英语"]
+  },
+  "evidence": {
+    "education": [{"title": "示例大学 · 计算机科学", "date": "2024-2027", "content": "硕士"}],
+    "experience": [{"title": "示例公司 · 算法实习生", "date": "2026", "content": "参与模型训练与评估"}],
+    "projects": [{"title": "示例项目", "date": "2026", "content": "完成模型开发"}],
+    "publications": []
+  },
+  "preferences": {"culture_keywords": ["导师制度"]},
+  "constraints": {"deal_breakers": []},
+  "matching_config": {
+    "must_have_keywords": [],
+    "nice_to_have_keywords": [],
+    "excluded_keywords": [],
+    "weights": {}
+  }
+}

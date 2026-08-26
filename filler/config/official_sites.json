@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.0",
+  "verified_at": "2026-08-26",
+  "aliases": {
+    "深圳虾皮信息科技有限公司": "Shopee",
+    "拼多多集团-PDD": "拼多多集团",
+    "Dexmal 原力灵机": "原力灵机",
+    "恒生电子股份有限公司": "恒生电子"
+  },
+  "companies": {
+    "示例科技有限公司": {
+      "default": "https://careers.example.com/jobs/1/apply",
+      "note": "仅用于本地示例数据。"
+    },
+    "Shopee": {
+      "campus": "https://app.mokahr.com/campus-recruitment/shopee/2962#/jobs"
+    },
+    "去哪儿旅行": {
+      "campus": "https://campus.qunar.com"
+    },
+    "快手": {
+      "campus": "https://campus.kuaishou.cn/#/campus/jobs"
+    },
+    "拼多多集团": {
+      "campus": "https://careers.pddglobalhr.com/campus/grad"
+    },
+    "诺瓦星云": {
+      "campus": "https://novastar.zhiye.com/campus/jobs"
+    },
+    "神州信息": {
+      "default": "https://www.dcits.com/",
+      "note": "当前仅确认公司官网；进入后请通过招聘入口或招聘公众号找到目标岗位。"
+    },
+    "原力灵机": {
+      "campus": "https://dexmal-inc.jobs.feishu.cn/285572/m/"
+    },
+    "小米集团": {
+      "campus": "https://hr.xiaomi.com/website/campus.html",
+      "default": "https://hr.xiaomi.com/"
+    },
+    "用友": {
+      "campus": "https://www.hotjob.cn/wt/yonyou/mobweb/v8/login?brandCode=1&state=campus"
+    },
+    "恒生电子": {
+      "campus": "https://campus.hundsun.com/campus/jobs"
+    },
+    "星环科技": {
+      "full_time": "https://app.mokahr.com/social-recruitment/transwarp/140922#/jobs"
+    },
+    "流形空间": {
+      "full_time": "https://jobs.manifoldai.cn/index/position/list"
+    },
+    "百奥游戏": {
+      "full_time": "https://app.mokahr.com/apply/aobi/25015#/jobs",
+      "campus": "https://app.mokahr.com/campus_apply/aobi/25016"
+    },
+    "北太振寰": {
+      "full_time": "https://www.baltamatica.com/join?rtype=1&type=&place=&date="
+    },
+    "荣耀": {
+      "full_time": "https://career.honor.com/SU5ff669649b0d78e6f4296c9a/pb/social.html",
+      "default": "https://www.honor.com/cn/career/"
+    }
+  }
+}

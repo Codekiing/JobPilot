@@ -1,0 +1,114 @@
+{
+  "schema_version": "1.1",
+  "default_limit": 1,
+  "aliases": {
+    "拼多多集团-PDD": "拼多多集团"
+  },
+  "companies": {
+    "深圳虾皮信息科技有限公司": [{
+      "employment_types": ["campus"], "limit": 1, "confirmed": true,
+      "verification_status": "confirmed",
+      "source_url": "https://job.wzu.edu.cn/campus/view/id/494923",
+      "verified_at": "2026-08-26",
+      "note": "Shopee 研发中心 2027 届校招公告：最多可投递 1 个志愿"
+    }],
+    "去哪儿旅行": [{
+      "employment_types": ["campus"], "limit": 1, "confirmed": true,
+      "verification_status": "confirmed",
+      "source_url": "https://myjob.dlmu.edu.cn/campus/view/id/868380",
+      "verified_at": "2026-08-26",
+      "note": "去哪儿旅行 2027 届校招公告：每个人只能投递 1 个岗位"
+    }],
+    "快手": [{
+      "employment_types": ["campus"], "limit": 1, "confirmed": true,
+      "verification_status": "confirmed",
+      "source_url": "https://campus.kuaishou.cn/#/campus/schedule/process",
+      "verified_at": "2026-08-26",
+      "note": "快手 27 届官方流程：一次限投 1 个；该岗位流程结束后可再投其他岗位"
+    }],
+    "拼多多集团": [{
+      "employment_types": ["campus"], "limit": 2, "confirmed": true,
+      "verification_status": "confirmed",
+      "source_url": "https://careers.pddglobalhr.com/campus/grad?tab=qa",
+      "verified_at": "2026-08-26",
+      "note": "第一意愿职位；接受相关岗位调剂时可申请第二意愿职位"
+    }],
+    "诺瓦星云": [{
+      "employment_types": ["campus"], "limit": 2, "confirmed": true,
+      "verification_status": "confirmed",
+      "source_url": "https://www.nowcoder.com/discuss/921165779448365056",
+      "verified_at": "2026-08-26",
+      "note": "27 届当期招聘信息披露 2 次网申（岗位）选择机会；非官网 FAQ，投递前仍建议复核"
+    }],
+    "神州信息": [{
+      "employment_types": ["campus"], "limit": 1, "confirmed": false,
+      "verification_status": "public_not_found",
+      "source_url": "https://www.nowcoder.com/jobs/detail/449304",
+      "verified_at": "2026-08-26",
+      "note": "已核查当前 2027 届岗位公开页，未披露投递数量；保守按 1 个处理"
+    }],
+    "Dexmal 原力灵机": [{
+      "employment_types": ["campus"], "limit": 1, "confirmed": false,
+      "verification_status": "public_not_found",
+      "source_url": "https://dexmal-inc.jobs.feishu.cn/285572/m/",
+      "verified_at": "2026-08-26",
+      "note": "已核查 2027 届招聘公告和公开投递入口，未披露当期投递数量；保守按 1 个处理"
+    }],
+    "小米集团": [{
+      "employment_types": ["campus"], "limit": 2, "confirmed": true,
+      "verification_status": "confirmed",
+      "source_url": "https://hr.xiaomi.com/website/campus-notice.html#id=13",
+      "verified_at": "2026-08-26",
+      "note": "小米 2027 届官方投递须知：最多 2 个职位，同时仅 1 个申请在流程中"
+    }],
+    "用友": [{
+      "employment_types": ["campus"], "limit": 1, "confirmed": false,
+      "verification_status": "public_not_found",
+      "source_url": "https://www.hotjob.cn/wt/yonyou/mobweb/v8/login?brandCode=1&state=campus",
+      "verified_at": "2026-08-26",
+      "note": "已核查用友当前校招公开门户，未披露投递数量；保守按 1 个处理"
+    }],
+    "恒生电子股份有限公司": [{
+      "employment_types": ["campus"], "limit": 1, "confirmed": false,
+      "verification_status": "public_not_found",
+      "source_url": "https://campus.hundsun.com/campus/jobs",
+      "verified_at": "2026-08-26",
+      "note": "已核查恒生电子 2027 校招公告及公开门户，未披露投递数量；保守按 1 个处理"
+    }],
+    "星环科技": [{
+      "employment_types": ["full_time"], "limit": 1, "confirmed": false,
+      "verification_status": "public_not_found",
+      "source_url": "https://app.mokahr.com/social-recruitment/transwarp/140922#/jobs",
+      "verified_at": "2026-08-26",
+      "note": "已核查官方社招门户，未公开投递数量；旧校招规则不适用于本组社招，保守按 1 个处理"
+    }],
+    "流形空间": [{
+      "employment_types": ["full_time"], "limit": 1, "confirmed": false,
+      "verification_status": "public_not_found",
+      "source_url": "https://jobs.manifoldai.cn/index/position/list",
+      "verified_at": "2026-08-26",
+      "note": "已核查官方社会招聘公开页面，未披露投递数量；保守按 1 个处理"
+    }],
+    "百奥游戏": [{
+      "employment_types": ["full_time"], "limit": 1, "confirmed": false,
+      "verification_status": "public_not_found",
+      "source_url": "https://app.mokahr.com/apply/aobi/25015#/jobs",
+      "verified_at": "2026-08-26",
+      "note": "已核查公开招聘门户，未披露投递数量；保守按 1 个处理"
+    }],
+    "北太振寰": [{
+      "employment_types": ["full_time"], "limit": 1, "confirmed": false,
+      "verification_status": "public_not_found",
+      "source_url": "https://www.baltamatica.com/join?rtype=1&type=&place=&date=",
+      "verified_at": "2026-08-26",
+      "note": "已核查官方加入我们页面，未披露投递数量；保守按 1 个处理"
+    }],
+    "荣耀": [{
+      "employment_types": ["full_time"], "limit": 2, "confirmed": true,
+      "verification_status": "confirmed",
+      "source_url": "https://www.honor.com/cn/career/faq/",
+      "verified_at": "2026-08-26",
+      "note": "荣耀官方 FAQ：社招可同时投递 2 个职位；第一职位面试完成前第二职位锁定"
+    }]
+  }
+}

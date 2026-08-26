@@ -1,0 +1,83 @@
+{
+  "schema_version": "1.0",
+  "source": {
+    "file_name": "resume.example.md",
+    "path": "examples/resume.example.md",
+    "format": "markdown",
+    "sha256": "123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0",
+    "size_bytes": 1024,
+    "processed_at": "2026-01-01T00:00:00+00:00"
+  },
+  "profile": {
+    "name": "示例候选人",
+    "email": "candidate@example.com",
+    "phone": "13800000000",
+    "location": "北京",
+    "job_intention": "机器学习工程师（2027届应届生）",
+    "links": []
+  },
+  "sections": [
+    {
+      "order": 1,
+      "type": "basic_info",
+      "title": "基本信息",
+      "content": "示例候选人\n2027届应届生\n求职意向：机器学习工程师",
+      "items": []
+    },
+    {
+      "order": 2,
+      "type": "education",
+      "title": "教育背景",
+      "content": "2024.09-2027.06 示例大学 计算机科学 硕士",
+      "items": [
+        {
+          "order": 1,
+          "title": "示例大学 计算机科学 硕士",
+          "content": "主修机器学习与分布式系统",
+          "date": "2024.09-2027.06"
+        }
+      ]
+    },
+    {
+      "order": 3,
+      "type": "internship",
+      "title": "实习经历",
+      "content": "2026.01-2026.07 示例科技 算法实习生\n模型准确率提升 12%；推理延迟降低 30%。\n优化数据管道后处理吞吐量提升 2 倍。",
+      "items": [
+        {
+          "order": 1,
+          "title": "示例科技 算法实习生",
+          "content": "使用 Python 和 PyTorch 进行机器学习模型训练与评估",
+          "date": "2026.01-2026.07"
+        }
+      ]
+    },
+    {
+      "order": 4,
+      "type": "project",
+      "title": "项目经历",
+      "content": "搭建深度学习评测系统，测试覆盖率达到 90%。",
+      "items": [
+        {
+          "order": 1,
+          "title": "模型评测系统",
+          "content": "使用 Python 搭建自动化评测流程",
+          "date": "2025.06-2025.12"
+        }
+      ]
+    },
+    {
+      "order": 5,
+      "type": "skills",
+      "title": "核心技能",
+      "content": "熟练 Python、PyTorch，熟悉机器学习与深度学习。",
+      "items": []
+    }
+  ],
+  "raw_text": "2027届应届生\n求职意向：机器学习工程师\n熟练 Python 和 PyTorch",
+  "warnings": [],
+  "extraction": {
+    "extractor": "markdown",
+    "page_count": null
+  }
+}

@@ -1,0 +1,7 @@
+.browser-profile/
+.venv/
+outputs/
+__pycache__/
+*.py[cod]
+inputs/*.json
+!inputs/*.example.json

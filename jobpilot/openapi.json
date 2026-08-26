@@ -1,0 +1,173 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "JobPilot Local API",
+    "version": "0.1.0",
+    "description": "Local API facade for user-profile construction and job matching. External model calls and online job sources are disabled by default."
+  },
+  "servers": [
+    {"url": "http://127.0.0.1:8765"}
+  ],
+  "paths": {
+    "/jobpilot/health": {
+      "get": {
+        "summary": "Health check",
+        "responses": {
+          "200": {"description": "Service is available"}
+        }
+      }
+    },
+    "/jobpilot/questionnaire": {
+      "get": {
+        "summary": "Get the 12-question profile survey",
+        "responses": {
+          "200": {"description": "Questionnaire definition"}
+        }
+      }
+    },
+    "/jobpilot/openapi.json": {
+      "get": {
+        "summary": "Get this OpenAPI document",
+        "responses": {
+          "200": {"description": "OpenAPI 3.1 document"}
+        }
+      }
+    },
+    "/jobpilot/profile": {
+      "post": {
+        "summary": "Build or enrich a user profile",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "resume_json": {"type": "string", "description": "Project-relative component-one resume.json path"},
+                  "profile_json": {"type": "string", "description": "Project-relative existing profile.json path"},
+                  "survey_answers": {
+                    "type": "object",
+                    "additionalProperties": {"type": "string"},
+                    "default": {}
+                  },
+                  "save": {"type": "boolean", "default": true},
+                  "output_dir": {"type": "string", "default": "profile_builder/outputs"},
+                  "use_model": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Must be explicitly true to call an external model"
+                  },
+                  "model": {"type": "string", "description": "Required only when use_model is true"},
+                  "api_base": {"type": "string"}
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {"description": "Profile and processing metadata"},
+          "400": {"description": "Invalid request"},
+          "404": {"description": "Input file not found"},
+          "500": {"description": "Internal or explicitly requested model error"}
+        }
+      }
+    },
+    "/jobpilot/match": {
+      "post": {
+        "summary": "Collect and match jobs for a user profile",
+        "description": "Offline by default. Public recruitment sources are accessed only when online is explicitly true.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "profile_json": {"type": "string", "description": "Project-relative profile.json; latest profile is used when omitted"},
+                  "online": {"type": "boolean", "default": false},
+                  "sources": {
+                    "type": "array",
+                    "items": {"enum": ["boss", "shixiseng", "nowcoder", "offershow"]}
+                  },
+                  "queries": {"type": "array", "items": {"type": "string"}},
+                  "import_jobs": {"type": "array", "items": {"type": "string"}, "default": []},
+                  "max_per_source": {"type": "integer", "minimum": 1, "maximum": 100, "default": 30},
+                  "min_score": {"type": "number", "minimum": 0, "maximum": 100, "default": 0},
+                  "limit": {"type": "integer", "minimum": 1, "maximum": 500, "default": 100},
+                  "save": {"type": "boolean", "default": true},
+                  "output_dir": {"type": "string", "default": "matcher/outputs"}
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {"description": "Matched job table and provider status"},
+          "400": {"description": "Invalid request"},
+          "404": {"description": "Profile or import file not found"},
+          "500": {"description": "Internal error"}
+        }
+      }
+    },
+    "/jobpilot/filter": {
+      "post": {
+        "summary": "Generate an interactive job filtering page",
+        "description": "Reads a matcher jobs.json and creates a self-contained local HTML without network access.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "matcher_json": {"type": "string", "description": "Project-relative matcher jobs.json; latest is used when omitted"},
+                  "limits_json": {"type": "string", "default": "filter/config/company_limits.json"},
+                  "output_dir": {"type": "string", "default": "filter/outputs"}
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {"description": "Generated HTML path and filter summary"},
+          "400": {"description": "Invalid request"},
+          "404": {"description": "Input file not found"},
+          "500": {"description": "Internal error"}
+        }
+      }
+    },
+    "/jobpilot/filler": {
+      "post": {
+        "summary": "Create local application-form drafts",
+        "description": "Builds per-job field mappings from a profile and filter export. This API never opens a browser, transmits personal data, saves a remote draft, or submits an application.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["selected_jobs_json"],
+                "properties": {
+                  "profile_json": {"type": "string", "description": "Project-relative profile.json; latest profile is used when omitted"},
+                  "selected_jobs_json": {"type": "string", "description": "Project-relative selected-jobs.json exported by filter"},
+                  "official_sites_json": {"type": "string", "default": "filler/config/official_sites.json", "description": "Project-relative verified company career-site mapping"},
+                  "output_dir": {"type": "string", "default": "filler/outputs"}
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {"description": "Local fill plan and per-job draft paths"},
+          "400": {"description": "Invalid request or mismatched profile"},
+          "404": {"description": "Input file not found"},
+          "500": {"description": "Internal error"}
+        }
+      }
+    }
+  }
+}

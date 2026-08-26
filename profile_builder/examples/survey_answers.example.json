@@ -1,0 +1,16 @@
+{
+  "survey_answers": {
+    "basic_status": "目前在深圳，2027届硕士，正在积极求职",
+    "job_targets": "全职；首选大模型后训练算法工程师，其次Agent算法工程师",
+    "location_work_mode": "首选深圳、北京，可接受上海；接受现场或混合办公，可以搬迁",
+    "availability": "2027-07-01可以入职",
+    "compensation": "最低30K，期望35K-45K，14薪以上，可商议",
+    "strengths_skills": "GRPO、RLHF、分布式训练；能独立定位训练稳定性问题",
+    "achievements": "准确率提升11%；调参成本降低60%",
+    "company_industry": "偏好AI基础设施或大模型公司，大中型、成长期以上；不考虑游戏博彩",
+    "constraints": "不接受长期出差和单休；可接受适度加班",
+    "languages_authorization": "中文母语、英语可工作交流；具备中国大陆和香港工作许可",
+    "matching_keywords": "必须：RLHF；加分：Agent、多模态；排除：纯数据标注",
+    "additional_context": "希望团队重视技术成长，并有导师制度或公开发表机会"
+  }
+}

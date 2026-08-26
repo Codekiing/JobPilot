@@ -1,0 +1,15 @@
+{
+  "schema_version": "1.0",
+  "component": "filter",
+  "profile_id": "profile-123456789abc",
+  "jobs": [
+    {
+      "job_key": "example:1",
+      "title": "算法工程师",
+      "company": "示例科技有限公司",
+      "locations": ["北京"],
+      "application_url": "https://careers.example.com/jobs/1/apply",
+      "source_url": "https://careers.example.com/jobs/1"
+    }
+  ]
+}

@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://jobpilot.local/schemas/user-profile-v1.json",
+  "title": "JobPilot User Profile",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "profile_id",
+    "metadata",
+    "identity",
+    "career",
+    "target",
+    "capabilities",
+    "evidence",
+    "preferences",
+    "constraints",
+    "matching_config",
+    "questionnaire",
+    "completion"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "profile_id": {"type": "string", "pattern": "^profile-[a-f0-9]{12}$"},
+    "metadata": {
+      "type": "object",
+      "required": ["component", "component_version", "created_at", "updated_at", "source_resume_sha256"],
+      "properties": {
+        "component": {"const": "profile_builder"},
+        "component_version": {"type": "string"},
+        "created_at": {"type": "string", "format": "date-time"},
+        "updated_at": {"type": "string", "format": "date-time"},
+        "source_resume_json": {"type": ["string", "null"]},
+        "source_resume_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+      }
+    },
+    "identity": {
+      "type": "object",
+      "required": ["name", "contact"],
+      "properties": {
+        "name": {"type": ["string", "null"]},
+        "contact": {"type": "object"}
+      }
+    },
+    "career": {
+      "type": "object",
+      "required": ["career_stage", "job_search_status", "current_city", "highest_degree", "graduation_date", "experience_months"]
+    },
+    "target": {
+      "type": "object",
+      "required": ["employment_types", "primary_roles", "preferred_locations", "work_modes", "available_from", "salary", "internship"],
+      "properties": {
+        "employment_types": {"type": "array", "items": {"type": "string"}},
+        "primary_roles": {"type": "array", "items": {"type": "string"}},
+        "preferred_locations": {"type": "array", "items": {"type": "string"}},
+        "work_modes": {"type": "array", "items": {"type": "string"}},
+        "available_from": {"type": ["string", "null"], "format": "date"},
+        "salary": {"type": "object"},
+        "internship": {"type": "object"}
+      }
+    },
+    "capabilities": {
+      "type": "object",
+      "required": ["skills", "user_confirmed_strengths", "languages"],
+      "properties": {
+        "skills": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name", "category", "proficiency", "source", "evidence_refs"]
+          }
+        }
+      }
+    },
+    "evidence": {"type": "object", "required": ["resume_sections", "education", "experience", "projects", "publications", "awards", "quantified_achievements"]},
+    "preferences": {"type": "object"},
+    "constraints": {"type": "object"},
+    "matching_config": {
+      "type": "object",
+      "required": ["must_have_keywords", "nice_to_have_keywords", "excluded_keywords", "weights"]
+    },
+    "questionnaire": {"type": "object", "required": ["answers", "skipped_question_ids", "last_session_at"]},
+    "completion": {
+      "type": "object",
+      "required": ["score", "match_ready", "missing_required", "missing_recommended"],
+      "properties": {
+        "score": {"type": "integer", "minimum": 0, "maximum": 100},
+        "match_ready": {"type": "boolean"}
+      }
+    }
+  }
+}

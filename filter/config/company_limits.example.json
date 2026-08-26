@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.1",
+  "default_limit": 1,
+  "aliases": {
+    "示例科技有限公司": "示例科技"
+  },
+  "companies": {
+    "示例科技": [
+      {
+        "employment_types": ["campus"],
+        "limit": 2,
+        "confirmed": true,
+        "verification_status": "confirmed",
+        "source_url": "https://example.com/campus/faq",
+        "verified_at": "2026-08-26",
+        "note": "该届校园招聘最多选择两个岗位"
+      }
+    ]
+  }
+}
