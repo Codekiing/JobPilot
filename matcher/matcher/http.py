@@ -15,6 +15,7 @@ def request_bytes(
     timeout: float = 15,
     method: str = "GET",
     form: dict[str, Any] | None = None,
+    json_body: dict[str, Any] | None = None,
     headers: dict[str, str] | None = None,
 ) -> bytes:
     request_headers = {
@@ -24,7 +25,12 @@ def request_bytes(
     }
     request_headers.update(headers or {})
     data = None
-    if form is not None:
+    if form is not None and json_body is not None:
+        raise ValueError("form 与 json_body 不能同时使用")
+    if json_body is not None:
+        data = json.dumps(json_body, ensure_ascii=False).encode("utf-8")
+        request_headers.setdefault("Content-Type", "application/json;charset=UTF-8")
+    elif form is not None:
         data = urlencode(form, doseq=True).encode("utf-8")
         request_headers.setdefault("Content-Type", "application/x-www-form-urlencoded")
     request = Request(url, data=data, headers=request_headers, method=method)

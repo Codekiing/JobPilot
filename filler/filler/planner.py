@@ -6,12 +6,13 @@ from pathlib import Path
 from typing import Any
 from urllib.parse import urlparse
 
-from .mapper import build_draft_fields
+from .mapper import build_draft_fields, build_structured_records
 from .models import ApplicationDraft, FillPlan
 from .official_sites import resolve_official_site
 
 
 REQUIRED_FIELDS = ("full_name", "email", "phone")
+SUPPORTED_RESUME_SUFFIXES = {".pdf", ".doc", ".docx", ".ppt", ".pptx", ".png", ".jpg", ".jpeg", ".html"}
 
 
 def adapter_for(url: str) -> str:
@@ -26,6 +27,8 @@ def adapter_for(url: str) -> str:
         return "hotjob"
     if host.endswith("nowcoder.com"):
         return "nowcoder"
+    if host.endswith("sensetime.com"):
+        return "atsx"
     return "generic"
 
 
@@ -46,6 +49,7 @@ class FillPlanner:
         *,
         profile_path: Path,
         selected_jobs_path: Path,
+        resume_file: Path | None = None,
     ) -> FillPlan:
         profile_id = str(profile.get("profile_id") or "")
         selected_profile_id = str(selected_jobs.get("profile_id") or "")
@@ -54,6 +58,7 @@ class FillPlanner:
                 f"用户画像与待投递岗位不属于同一画像: {profile_id} != {selected_profile_id}"
             )
 
+        resolved_resume = _resolve_resume_file(resume_file)
         fields = build_draft_fields(profile)
         available = {field.key for field in fields}
         missing = [key for key in REQUIRED_FIELDS if key not in available]
@@ -90,7 +95,6 @@ class FillPlanner:
                     official_url_source=resolution.source,
                     source_url=str(job.get("source_url") or job.get("url") or ""),
                     adapter=adapter_for(url),
-                    fields=fields,
                     warnings=warnings,
                 )
             )
@@ -103,6 +107,9 @@ class FillPlanner:
             created_at=created_at,
             source_profile_json=str(profile_path.resolve()),
             source_selected_jobs_json=str(selected_jobs_path.resolve()),
+            resume_file=str(resolved_resume) if resolved_resume else None,
+            fields=fields,
+            structured_records=build_structured_records(profile),
             applications=applications,
             missing_required_fields=missing,
             safety={
@@ -110,7 +117,20 @@ class FillPlanner:
                 "sensitive_data_confirmation_required": True,
                 "remote_draft_save_default": True,
                 "resume_upload_default": False,
+                "resume_upload_confirmation_required": True,
                 "automatic_submit": False,
                 "local_draft_contains_personal_data": True,
             },
         )
+
+
+def _resolve_resume_file(path: Path | None) -> Path | None:
+    if path is None:
+        return None
+    resolved = path.expanduser().resolve()
+    if not resolved.is_file():
+        raise ValueError(f"简历文件不存在: {resolved}")
+    if resolved.suffix.lower() not in SUPPORTED_RESUME_SUFFIXES:
+        allowed = ", ".join(sorted(SUPPORTED_RESUME_SUFFIXES))
+        raise ValueError(f"不支持的简历文件格式: {resolved.suffix or '无扩展名'}；支持 {allowed}")
+    return resolved

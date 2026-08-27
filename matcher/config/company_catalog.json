@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.0",
+  "updated_at": "2026-08-27",
+  "description": "JobPilot 官网优先搜索清单。career_urls 只保存企业公开招聘入口，不代表每次搜索一定返回岗位。",
+  "tiers": {
+    "major": [
+      {"name": "腾讯", "aliases": ["Tencent", "腾讯科技"], "career_urls": ["https://join.qq.com/post.html"]},
+      {"name": "字节跳动", "aliases": ["ByteDance", "抖音集团"], "career_urls": ["https://jobs.bytedance.com/campus/position"]},
+      {"name": "阿里巴巴", "aliases": ["阿里", "Alibaba", "淘天集团", "阿里云"], "career_urls": ["https://talent.alibaba.com/campus/position-list"]},
+      {"name": "美团", "aliases": ["Meituan"], "career_urls": ["https://zhaopin.meituan.com/web/position"]},
+      {"name": "百度", "aliases": ["Baidu"], "career_urls": ["https://talent.baidu.com/jobs/list"]},
+      {"name": "京东", "aliases": ["JD", "京东集团", "京东科技"], "career_urls": ["https://campus.jd.com/#/jobs"]},
+      {"name": "华为", "aliases": ["Huawei", "华为软件", "华为云", "华为技术"], "career_urls": ["https://career.huawei.com/reccampportal/portal5/campus-recruitment.html"]},
+      {"name": "快手", "aliases": ["Kuaishou"], "career_urls": ["https://campus.kuaishou.cn/#/campus/jobs"]},
+      {"name": "小米", "aliases": ["Xiaomi", "小米集团"], "career_urls": ["https://hr.xiaomi.com/website/campus.html"]},
+      {"name": "拼多多", "aliases": ["PDD", "拼多多集团"], "career_urls": ["https://careers.pddglobalhr.com/campus/grad"]},
+      {"name": "网易", "aliases": ["NetEase", "网易游戏", "网易互娱"], "career_urls": ["https://campus.163.com/app/index"]},
+      {"name": "滴滴", "aliases": ["DiDi", "滴滴出行"], "career_urls": ["https://talent.didiglobal.com/campus"]},
+      {"name": "蚂蚁集团", "aliases": ["蚂蚁金服", "Ant Group"], "career_urls": ["https://talent.antgroup.com/campus"]},
+      {"name": "哔哩哔哩", "aliases": ["Bilibili", "B站"], "career_urls": ["https://jobs.bilibili.com/campus/positions"]},
+      {"name": "OPPO", "aliases": ["广东欧珀"], "career_urls": ["https://careers.oppo.com/campus"]},
+      {"name": "vivo", "aliases": ["维沃"], "career_urls": ["https://hr.vivo.com/wt/vivo/web/index/CompvivoPagerecruit_Campus"]},
+      {"name": "荣耀", "aliases": ["Honor"], "career_urls": ["https://career.honor.com/SU5ff669649b0d78e6f4296c9a/pb/social.html"]},
+      {"name": "联想", "aliases": ["Lenovo", "联想集团"], "career_urls": ["https://talent.lenovo.com.cn/"]}
+    ],
+    "mid_size": [
+      {"name": "携程", "aliases": ["Trip.com", "携程集团"], "career_urls": ["https://job.ctrip.com/"]},
+      {"name": "小红书", "aliases": ["RED"], "career_urls": ["https://job.xiaohongshu.com/campus"]},
+      {"name": "得物", "aliases": ["识装信息科技"], "career_urls": ["https://campus.dewu.com/"]},
+      {"name": "贝壳找房", "aliases": ["贝壳", "KE Holdings"], "career_urls": ["https://campus.ke.com/"]},
+      {"name": "金山办公", "aliases": ["WPS", "Kingsoft Office"], "career_urls": ["https://campus.wps.cn/"]},
+      {"name": "科大讯飞", "aliases": ["iFLYTEK"], "career_urls": ["https://campus.iflytek.com/"]},
+      {"name": "商汤科技", "aliases": ["商汤", "SenseTime"], "career_urls": ["https://joinus.sensetime.com/"]},
+      {"name": "大疆创新", "aliases": ["大疆", "DJI"], "career_urls": ["https://we.dji.com/zh-CN/campus"]},
+      {"name": "理想汽车", "aliases": ["理想", "Li Auto"], "career_urls": ["https://career.lixiang.com/campus"]},
+      {"name": "蔚来", "aliases": ["NIO", "蔚来汽车"], "career_urls": ["https://nio.jobs.feishu.cn/campus"]},
+      {"name": "小鹏汽车", "aliases": ["小鹏", "XPeng"], "career_urls": ["https://xiaopeng.jobs.feishu.cn/campus"]},
+      {"name": "Shopee", "aliases": ["虾皮", "深圳虾皮信息科技有限公司"], "career_urls": ["https://app.mokahr.com/campus-recruitment/shopee/2962#/jobs"]},
+      {"name": "货拉拉", "aliases": ["Lalamove"], "career_urls": ["https://lalamove.jobs.feishu.cn/campus"]},
+      {"name": "同程旅行", "aliases": ["同程", "Tongcheng Travel"], "career_urls": ["https://lycom.zhiye.com/campus"]},
+      {"name": "中兴通讯", "aliases": ["中兴", "ZTE"], "career_urls": ["https://job.zte.com.cn/cn/campus-recruitment"]},
+      {"name": "海康威视", "aliases": ["Hikvision"], "career_urls": ["https://campushr.hikvision.com/"]}
+    ],
+    "unicorn": [
+      {"name": "月之暗面", "aliases": ["Moonshot AI", "Kimi"], "career_urls": ["https://moonshot.jobs.feishu.cn/"]},
+      {"name": "智谱AI", "aliases": ["智谱华章", "Zhipu AI"], "career_urls": ["https://zhipuai.jobs.feishu.cn/"]},
+      {"name": "MiniMax", "aliases": ["稀宇科技"], "career_urls": ["https://minimax.jobs.feishu.cn/"]},
+      {"name": "阶跃星辰", "aliases": ["StepFun"], "career_urls": ["https://stepfun.jobs.feishu.cn/"]},
+      {"name": "百川智能", "aliases": ["Baichuan AI"], "career_urls": ["https://baichuan.jobs.feishu.cn/"]},
+      {"name": "地平线", "aliases": ["Horizon Robotics", "地平线机器人"], "career_urls": ["https://horizon.jobs.feishu.cn/"]},
+      {"name": "Momenta", "aliases": ["魔门塔"], "career_urls": ["https://momenta.jobs.feishu.cn/"]},
+      {"name": "文远知行", "aliases": ["WeRide"], "career_urls": ["https://weride.jobs.feishu.cn/"]},
+      {"name": "小马智行", "aliases": ["Pony.ai"], "career_urls": ["https://pony.jobs.feishu.cn/"]},
+      {"name": "影石创新", "aliases": ["Insta360"], "career_urls": ["https://insta360.jobs.feishu.cn/"]},
+      {"name": "追觅科技", "aliases": ["Dreame"], "career_urls": ["https://dreame.jobs.feishu.cn/"]},
+      {"name": "新石器无人车", "aliases": ["Neolix"], "career_urls": ["https://neolix.jobs.feishu.cn/"]}
+    ],
+    "growth": [
+      {"name": "深势科技", "aliases": ["DP Technology"], "career_urls": ["https://dptechnology.jobs.feishu.cn/"]},
+      {"name": "第四范式", "aliases": ["4Paradigm"], "career_urls": ["https://4paradigm.jobs.feishu.cn/"]},
+      {"name": "星环科技", "aliases": ["Transwarp"], "career_urls": ["https://app.mokahr.com/social-recruitment/transwarp/140922#/jobs"]},
+      {"name": "联影医疗", "aliases": ["United Imaging"], "career_urls": ["https://uih.zhiye.com/campus"]},
+      {"name": "云天励飞", "aliases": ["Intellifusion"], "career_urls": ["https://intellifusion.zhiye.com/campus"]},
+      {"name": "黑芝麻智能", "aliases": ["Black Sesame Technologies"], "career_urls": ["https://bst.jobs.feishu.cn/"]},
+      {"name": "原力灵机", "aliases": ["Dexmal"], "career_urls": ["https://dexmal-inc.jobs.feishu.cn/285572/m/"]},
+      {"name": "杉川机器人", "aliases": ["3irobotix"], "career_urls": ["https://3irobotix.jobs.feishu.cn/"]}
+    ]
+  }
+}

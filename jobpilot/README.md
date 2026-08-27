@@ -7,7 +7,7 @@
 从项目根目录运行：
 
 ```bash
-python3 -m jobpilot --host 127.0.0.1 --port 8765
+uv run --python 3.12 python -m jobpilot --host 127.0.0.1 --port 8765
 ```
 
 默认只监听本机地址。
@@ -25,6 +25,14 @@ python3 -m jobpilot --host 127.0.0.1 --port 8765
 ### `GET /jobpilot/openapi.json`
 
 返回 [OpenAPI 3.1 契约](openapi.json)。
+
+### `POST /jobpilot/resume`
+
+接收网页选择的 Base64 简历文件，真实调用 `extractor` 与 `profile_builder`，返回结构化简历和用户画像。文件只写入本地项目目录，支持的单文件上限为 8MB。
+
+### `POST /jobpilot/rank`
+
+接收结构化画像与网页中的 1–500 个岗位，真实调用 `matcher` 的本地评分逻辑返回分数和推荐原因，不访问外部网络。
 
 ### `POST /jobpilot/profile`
 
@@ -117,9 +125,10 @@ API Key 不允许通过请求体传入，只从服务端环境变量 `OPENAI_API
 {
   "profile_json": "profile_builder/outputs/<用户目录>/profile.json",
   "selected_jobs_json": "filler/inputs/selected-jobs.json",
+  "resume_file": "inputs/resume.pdf",
   "official_sites_json": "filler/config/official_sites.json",
   "output_dir": "filler/outputs"
 }
 ```
 
-浏览器辅助填充必须通过 `filler` 命令行显式执行。它会先打开公司官方招聘入口，等待用户手动登录和进入申请表，再分别确认个人信息填入与网站草稿保存；API 始终只生成本地计划。
+浏览器辅助填充必须通过 `filler` 命令行显式执行。它会先打开公司官方招聘入口，等待用户手动登录和进入申请表，再分别确认个人信息填入、简历上传与网站草稿保存；API 始终只生成本地计划，不上传附件。

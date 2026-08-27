@@ -26,6 +26,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--save-remote-draft", action="store_true", help=argparse.SUPPRESS)
     parser.add_argument("--browser-profile", type=Path, default=Path("filler/.browser-profile"), help="独立浏览器登录状态目录")
     parser.add_argument("--official-sites", type=Path, default=Path("filler/config/official_sites.json"), help="公司官方招聘入口配置")
+    parser.add_argument("--resume-file", type=Path, help="可选的简历附件；执行时仍会逐岗位确认后才上传")
     return parser
 
 
@@ -43,14 +44,21 @@ def main(argv: list[str] | None = None) -> int:
     selected_jobs = load_selected_jobs(jobs_path)
     official_sites_path = _resolve(root, args.official_sites)
     official_sites = load_official_sites(official_sites_path)
+    resume_file = _resolve(root, args.resume_file) if args.resume_file else None
     plan = FillPlanner(official_sites).build(
-        profile, selected_jobs, profile_path=profile_path, selected_jobs_path=jobs_path
+        profile,
+        selected_jobs,
+        profile_path=profile_path,
+        selected_jobs_path=jobs_path,
+        resume_file=resume_file,
     )
     run_dir = save_plan(plan, output_root)
     print(f"画像：{profile_path}")
     print(f"岗位：{len(plan.applications)} 个")
     print(f"草稿：{run_dir / 'fill-plan.json'}")
     print(f"官网配置：{official_sites_path}")
+    if plan.resume_file:
+        print(f"简历附件：{plan.resume_file}（执行时仍需逐岗位确认上传）")
     if plan.missing_required_fields:
         print("缺少必要字段：" + "、".join(plan.missing_required_fields))
     if not args.execute:

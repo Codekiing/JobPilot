@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import re
 from typing import Any
 
 from .models import DraftField
@@ -9,11 +10,14 @@ FIELD_ALIASES: dict[str, list[str]] = {
     "full_name": ["姓名", "候选人姓名", "真实姓名", "full name", "candidate name", "name"],
     "email": ["邮箱", "电子邮箱", "邮件地址", "email", "e-mail"],
     "phone": ["手机号", "手机号码", "联系电话", "电话", "mobile", "phone", "telephone"],
+    "gender": ["性别", "gender", "sex"],
+    "birth_date": ["出生日期", "出生年月", "生日", "date of birth", "birth date", "birthday"],
+    "personal_links": ["个人主页", "作品集", "GitHub", "个人链接", "portfolio", "personal website", "github"],
     "current_city": ["当前城市", "现居城市", "所在地", "居住地", "current city", "location"],
     "highest_degree": ["最高学历", "学历", "学位", "degree", "education level"],
     "graduation_date": ["毕业时间", "毕业日期", "预计毕业时间", "graduation date", "graduation"],
     "primary_role": ["求职意向", "期望岗位", "目标岗位", "应聘职位", "desired role", "target role"],
-    "preferred_locations": ["期望城市", "意向城市", "工作地点", "preferred location", "desired location"],
+    "preferred_locations": ["期望城市", "意向城市", "工作地点", "preferred location", "preferred city", "desired location", "desired city"],
     "skills": ["技能", "专业技能", "技能标签", "skills", "technical skills"],
     "languages": ["语言能力", "外语能力", "语言", "languages", "language skills"],
     "education_summary": ["教育经历", "教育背景", "教育情况", "education background", "education experience"],
@@ -77,6 +81,9 @@ def build_draft_fields(profile: dict[str, Any]) -> list[DraftField]:
         "full_name": (_text(identity.get("name")), "identity.name"),
         "email": (_text(contact.get("email")), "identity.contact.email"),
         "phone": (_text(contact.get("phone")), "identity.contact.phone"),
+        "gender": (_text(identity.get("gender")), "identity.gender"),
+        "birth_date": (_text(identity.get("birth_date")), "identity.birth_date"),
+        "personal_links": (_list_text(contact.get("links"), keys=("url", "name")), "identity.contact.links"),
         "current_city": (_text(career.get("current_city")), "career.current_city"),
         "highest_degree": (_text(career.get("highest_degree")), "career.highest_degree"),
         "graduation_date": (_text(career.get("graduation_date")), "career.graduation_date"),
@@ -101,3 +108,87 @@ def build_draft_fields(profile: dict[str, Any]) -> list[DraftField]:
         for key, (value, source_path) in values.items()
         if value
     ]
+
+
+def _period(value: Any) -> tuple[str, str]:
+    parts = re.findall(r"(?:19|20)\d{2}[.\-/](?:0?[1-9]|1[0-2])", _text(value))
+    normalized = [item.replace(".", "-").replace("/", "-") for item in parts]
+    normalized = [f"{year}-{int(month):02d}" for year, month in (item.split("-") for item in normalized)]
+    return (normalized[0], normalized[1]) if len(normalized) >= 2 else ("", "")
+
+
+def _education_record(item: dict[str, Any]) -> dict[str, str]:
+    title = _text(item.get("title"))
+    content = _text(item.get("content"))
+    school_match = re.search(r"^(.+?(?:大学|学院))", title)
+    school = school_match.group(1) if school_match else title.split(" · ", 1)[0].strip()
+    school = re.sub(r"（(?:QS\s*)?\d+）$", "", school).strip()
+    degree = next((value for value in ("博士", "硕士", "本科", "大专", "高中") if value in title or value in content), "")
+    if not degree and "学士" in f"{title}\n{content}":
+        degree = "本科"
+    remainder = title[school_match.end():].strip() if school_match else ""
+    remainder = re.sub(r"^（[^）]+）\s*", "", remainder)
+    major = re.sub(r"[（(][^）)]*(?:博士|硕士|学士|本科)[^）)]*[）)]\s*$", "", remainder).strip(" ·-")
+    start, end = _period(item.get("date") or content)
+    return {
+        "school": school,
+        "degree": degree,
+        "major": major,
+        "start": start,
+        "end": end,
+        "description": content,
+    }
+
+
+_ROLE_HINT = re.compile(r"(?:大模型|AI|算法|研发|产品|数据|软件|前端|后端|测试|研究).*(?:实习生|工程师|研究员|经理|专家)$", re.I)
+
+
+def _experience_record(item: dict[str, Any]) -> dict[str, str]:
+    title = _text(item.get("title"))
+    content = _text(item.get("content"))
+    company = ""
+    role = ""
+    limited = re.sub(r"^[\d.\-/]+\s*", "", title).strip()
+    candidates = list(re.finditer(r"\s+", limited))
+    for match in candidates:
+        suffix = limited[match.end():].strip()
+        if _ROLE_HINT.search(suffix):
+            company, role = limited[:match.start()].strip(), suffix
+            break
+    if not company:
+        marker = re.search(r"(?:有限公司|研究院|实验室|大学|学院)", limited)
+        if marker:
+            company, role = limited[:marker.end()].strip(), limited[marker.end():].strip(" -")
+    if not company:
+        company, _, role = limited.partition(" · ")
+    start, end = _period(item.get("date") or content)
+    body = content
+    first_newline = body.find("\n")
+    if first_newline >= 0:
+        body = body[first_newline + 1:].strip()
+    return {"company": company, "title": role, "start": start, "end": end, "description": body}
+
+
+def build_structured_records(profile: dict[str, Any]) -> dict[str, list[dict[str, str]]]:
+    """Preserve repeatable resume sections for ATS forms instead of flattening them into text blobs."""
+    evidence = profile.get("evidence") if isinstance(profile.get("evidence"), dict) else {}
+    education = [
+        _education_record(item) for item in evidence.get("education", []) if isinstance(item, dict)
+    ]
+    experience = [
+        _experience_record(item) for item in evidence.get("experience", []) if isinstance(item, dict)
+    ]
+    projects = [
+        {
+            "name": _text(item.get("title")),
+            "start": _period(item.get("date"))[0],
+            "end": _period(item.get("date"))[1],
+            "description": _text(item.get("content")),
+        }
+        for item in evidence.get("projects", []) if isinstance(item, dict)
+    ]
+    return {
+        "education": [item for item in education if item.get("school")],
+        "internship": [item for item in experience if item.get("company")],
+        "projects": [item for item in projects if item.get("name")],
+    }

@@ -27,7 +27,6 @@ class ApplicationDraft:
     official_url_source: str
     source_url: str
     adapter: str
-    fields: list[DraftField]
     warnings: list[str] = field(default_factory=list)
 
     def to_dict(self) -> dict[str, Any]:
@@ -41,7 +40,6 @@ class ApplicationDraft:
             "official_url_source": self.official_url_source,
             "source_url": self.source_url,
             "adapter": self.adapter,
-            "fields": [item.to_dict() for item in self.fields],
             "warnings": self.warnings,
         }
 
@@ -53,6 +51,9 @@ class FillPlan:
     created_at: str
     source_profile_json: str
     source_selected_jobs_json: str
+    resume_file: str | None
+    fields: list[DraftField]
+    structured_records: dict[str, list[dict[str, Any]]]
     applications: list[ApplicationDraft]
     missing_required_fields: list[str]
     safety: dict[str, Any]
@@ -61,16 +62,21 @@ class FillPlan:
         return {
             "schema_version": "1.0",
             "component": "filler",
-            "component_version": "0.1.0",
+            "component_version": "0.4.0",
             "plan_id": self.plan_id,
             "profile_id": self.profile_id,
             "created_at": self.created_at,
             "source_profile_json": self.source_profile_json,
             "source_selected_jobs_json": self.source_selected_jobs_json,
+            "resume_file": self.resume_file,
             "summary": {
                 "application_count": len(self.applications),
+                "field_count": len(self.fields),
+                "resume_file_configured": self.resume_file is not None,
                 "missing_required_field_count": len(self.missing_required_fields),
             },
+            "fields": [item.to_dict() for item in self.fields],
+            "structured_records": self.structured_records,
             "missing_required_fields": self.missing_required_fields,
             "safety": self.safety,
             "applications": [item.to_dict() for item in self.applications],

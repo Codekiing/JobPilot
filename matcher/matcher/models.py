@@ -31,6 +31,10 @@ class Job:
     deadline: str | None = None
     url: str = ""
     application_url: str = ""
+    source_kind: str = "public_platform"
+    company_tier: str = "unknown"
+    discovered_from: str = ""
+    application_source: str = "public_platform"
     collected_at: str = field(default_factory=utc_now)
     source_payload: dict[str, Any] = field(default_factory=dict)
 
@@ -89,6 +93,7 @@ class ProviderResult:
     queries: list[str] = field(default_factory=list)
     discovery_urls: list[str] = field(default_factory=list)
     warnings: list[str] = field(default_factory=list)
+    metadata: dict[str, Any] = field(default_factory=dict)
     collected_at: str = field(default_factory=utc_now)
 
     def summary(self) -> dict[str, Any]:
@@ -99,5 +104,6 @@ class ProviderResult:
             "queries": self.queries,
             "discovery_urls": self.discovery_urls,
             "warnings": self.warnings,
+            "metadata": self.metadata,
             "collected_at": self.collected_at,
         }

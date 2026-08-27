@@ -1,16 +1,18 @@
 # JobPilot 岗位匹配组件
 
-第三组件读取 `profile_builder` 生成的 `profile.json`，从公开招聘渠道采集岗位，统一字段、去重并使用本地规则计算人岗匹配分，最终生成岗位汇总表。本组件不自动投递，也不调用大模型。
+第三组件读取 `profile_builder` 生成的 `profile.json`，先搜索维护清单中的企业招聘官网，再从公开招聘平台补充候选岗位；完成统一字段、跨渠道去重和覆盖审计后，才使用本地规则计算人岗匹配分。结果按公司轮转选取，先覆盖每家公司的最高匹配岗位，再进入下一轮，避免少数公司占满推荐列表。本组件不自动投递，也不调用大模型。
+
+固定顺序为：`企业官网（大厂 / 中型公司 / 独角兽 / 成长型公司） → 公开招聘平台补充 → 去重 → 匹配评分`。官网无法解析时会记录覆盖缺口，不会把“未能采集”误报成“没有岗位”。
 
 ## 已接入渠道
 
 | 渠道 | 接入方式 | 说明 |
 |---|---|---|
-| 牛客网 | 公开职位检索接口 | 支持校招、实习和社招，按画像职业阶段选择 |
+| 牛客网 | 公开职位检索接口 | 支持校招、实习和社招；对大厂逐家公司定向检索，只作为补充来源并如实标记 |
 | OfferShow | 公开招聘栏目 | 汇总招聘计划，并优先保留公司官网投递链接 |
 | 实习僧 | 公开搜索结果页 | 仅当画像选择 `internship` 时采集 |
 | BOSS 直聘 | 公开搜索入口 | 遇到环境校验时不绕过，输出浏览器检索链接和 `needs_browser` 状态 |
-| 公司招聘官网 | `JobPosting` JSON-LD | 使用 `--career-url` 显式添加官网页面 |
+| 公司招聘官网 | 官网 API / `JobPosting` JSON-LD / 动态页面 | 默认优先搜索 `config/company_catalog.json`；腾讯、快手、百度使用公开接口，字节、美团使用 Playwright 渲染官方动态招聘页 |
 | 任意渠道导出 | JSON / CSV | 使用 `--import-jobs` 导入人工导出或授权取得的岗位 |
 
 站点结构和访问规则可能变化。每次结果都会记录各渠道的 `success`、`partial`、`empty`、`skipped`、`needs_browser` 或 `failed` 状态，访问失败不会被误报为“没有岗位”。
@@ -48,6 +50,7 @@ PYTHONPATH=matcher python3 -m matcher \
 python3 -m venv matcher/.venv
 source matcher/.venv/bin/activate
 pip install -e matcher
+playwright install chromium
 job-match
 ```
 

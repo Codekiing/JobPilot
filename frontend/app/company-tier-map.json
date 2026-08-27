@@ -1,0 +1,562 @@
+{
+  "腾讯": {
+    "canonical": "腾讯",
+    "tier": "major"
+  },
+  "Tencent": {
+    "canonical": "腾讯",
+    "tier": "major"
+  },
+  "腾讯科技": {
+    "canonical": "腾讯",
+    "tier": "major"
+  },
+  "字节跳动": {
+    "canonical": "字节跳动",
+    "tier": "major"
+  },
+  "ByteDance": {
+    "canonical": "字节跳动",
+    "tier": "major"
+  },
+  "抖音集团": {
+    "canonical": "字节跳动",
+    "tier": "major"
+  },
+  "阿里巴巴": {
+    "canonical": "阿里巴巴",
+    "tier": "major"
+  },
+  "阿里": {
+    "canonical": "阿里巴巴",
+    "tier": "major"
+  },
+  "Alibaba": {
+    "canonical": "阿里巴巴",
+    "tier": "major"
+  },
+  "淘天集团": {
+    "canonical": "阿里巴巴",
+    "tier": "major"
+  },
+  "阿里云": {
+    "canonical": "阿里巴巴",
+    "tier": "major"
+  },
+  "美团": {
+    "canonical": "美团",
+    "tier": "major"
+  },
+  "Meituan": {
+    "canonical": "美团",
+    "tier": "major"
+  },
+  "百度": {
+    "canonical": "百度",
+    "tier": "major"
+  },
+  "Baidu": {
+    "canonical": "百度",
+    "tier": "major"
+  },
+  "京东": {
+    "canonical": "京东",
+    "tier": "major"
+  },
+  "JD": {
+    "canonical": "京东",
+    "tier": "major"
+  },
+  "京东集团": {
+    "canonical": "京东",
+    "tier": "major"
+  },
+  "京东科技": {
+    "canonical": "京东",
+    "tier": "major"
+  },
+  "华为": {
+    "canonical": "华为",
+    "tier": "major"
+  },
+  "Huawei": {
+    "canonical": "华为",
+    "tier": "major"
+  },
+  "华为软件": {
+    "canonical": "华为",
+    "tier": "major"
+  },
+  "华为云": {
+    "canonical": "华为",
+    "tier": "major"
+  },
+  "华为技术": {
+    "canonical": "华为",
+    "tier": "major"
+  },
+  "快手": {
+    "canonical": "快手",
+    "tier": "major"
+  },
+  "Kuaishou": {
+    "canonical": "快手",
+    "tier": "major"
+  },
+  "小米": {
+    "canonical": "小米",
+    "tier": "major"
+  },
+  "Xiaomi": {
+    "canonical": "小米",
+    "tier": "major"
+  },
+  "小米集团": {
+    "canonical": "小米",
+    "tier": "major"
+  },
+  "拼多多": {
+    "canonical": "拼多多",
+    "tier": "major"
+  },
+  "PDD": {
+    "canonical": "拼多多",
+    "tier": "major"
+  },
+  "拼多多集团": {
+    "canonical": "拼多多",
+    "tier": "major"
+  },
+  "网易": {
+    "canonical": "网易",
+    "tier": "major"
+  },
+  "NetEase": {
+    "canonical": "网易",
+    "tier": "major"
+  },
+  "网易游戏": {
+    "canonical": "网易",
+    "tier": "major"
+  },
+  "网易互娱": {
+    "canonical": "网易",
+    "tier": "major"
+  },
+  "滴滴": {
+    "canonical": "滴滴",
+    "tier": "major"
+  },
+  "DiDi": {
+    "canonical": "滴滴",
+    "tier": "major"
+  },
+  "滴滴出行": {
+    "canonical": "滴滴",
+    "tier": "major"
+  },
+  "蚂蚁集团": {
+    "canonical": "蚂蚁集团",
+    "tier": "major"
+  },
+  "蚂蚁金服": {
+    "canonical": "蚂蚁集团",
+    "tier": "major"
+  },
+  "Ant Group": {
+    "canonical": "蚂蚁集团",
+    "tier": "major"
+  },
+  "哔哩哔哩": {
+    "canonical": "哔哩哔哩",
+    "tier": "major"
+  },
+  "Bilibili": {
+    "canonical": "哔哩哔哩",
+    "tier": "major"
+  },
+  "B站": {
+    "canonical": "哔哩哔哩",
+    "tier": "major"
+  },
+  "OPPO": {
+    "canonical": "OPPO",
+    "tier": "major"
+  },
+  "广东欧珀": {
+    "canonical": "OPPO",
+    "tier": "major"
+  },
+  "vivo": {
+    "canonical": "vivo",
+    "tier": "major"
+  },
+  "维沃": {
+    "canonical": "vivo",
+    "tier": "major"
+  },
+  "荣耀": {
+    "canonical": "荣耀",
+    "tier": "major"
+  },
+  "Honor": {
+    "canonical": "荣耀",
+    "tier": "major"
+  },
+  "联想": {
+    "canonical": "联想",
+    "tier": "major"
+  },
+  "Lenovo": {
+    "canonical": "联想",
+    "tier": "major"
+  },
+  "联想集团": {
+    "canonical": "联想",
+    "tier": "major"
+  },
+  "携程": {
+    "canonical": "携程",
+    "tier": "mid_size"
+  },
+  "Trip.com": {
+    "canonical": "携程",
+    "tier": "mid_size"
+  },
+  "携程集团": {
+    "canonical": "携程",
+    "tier": "mid_size"
+  },
+  "小红书": {
+    "canonical": "小红书",
+    "tier": "mid_size"
+  },
+  "RED": {
+    "canonical": "小红书",
+    "tier": "mid_size"
+  },
+  "得物": {
+    "canonical": "得物",
+    "tier": "mid_size"
+  },
+  "识装信息科技": {
+    "canonical": "得物",
+    "tier": "mid_size"
+  },
+  "贝壳找房": {
+    "canonical": "贝壳找房",
+    "tier": "mid_size"
+  },
+  "贝壳": {
+    "canonical": "贝壳找房",
+    "tier": "mid_size"
+  },
+  "KE Holdings": {
+    "canonical": "贝壳找房",
+    "tier": "mid_size"
+  },
+  "金山办公": {
+    "canonical": "金山办公",
+    "tier": "mid_size"
+  },
+  "WPS": {
+    "canonical": "金山办公",
+    "tier": "mid_size"
+  },
+  "Kingsoft Office": {
+    "canonical": "金山办公",
+    "tier": "mid_size"
+  },
+  "科大讯飞": {
+    "canonical": "科大讯飞",
+    "tier": "mid_size"
+  },
+  "iFLYTEK": {
+    "canonical": "科大讯飞",
+    "tier": "mid_size"
+  },
+  "商汤科技": {
+    "canonical": "商汤科技",
+    "tier": "mid_size"
+  },
+  "商汤": {
+    "canonical": "商汤科技",
+    "tier": "mid_size"
+  },
+  "SenseTime": {
+    "canonical": "商汤科技",
+    "tier": "mid_size"
+  },
+  "大疆创新": {
+    "canonical": "大疆创新",
+    "tier": "mid_size"
+  },
+  "大疆": {
+    "canonical": "大疆创新",
+    "tier": "mid_size"
+  },
+  "DJI": {
+    "canonical": "大疆创新",
+    "tier": "mid_size"
+  },
+  "理想汽车": {
+    "canonical": "理想汽车",
+    "tier": "mid_size"
+  },
+  "理想": {
+    "canonical": "理想汽车",
+    "tier": "mid_size"
+  },
+  "Li Auto": {
+    "canonical": "理想汽车",
+    "tier": "mid_size"
+  },
+  "蔚来": {
+    "canonical": "蔚来",
+    "tier": "mid_size"
+  },
+  "NIO": {
+    "canonical": "蔚来",
+    "tier": "mid_size"
+  },
+  "蔚来汽车": {
+    "canonical": "蔚来",
+    "tier": "mid_size"
+  },
+  "小鹏汽车": {
+    "canonical": "小鹏汽车",
+    "tier": "mid_size"
+  },
+  "小鹏": {
+    "canonical": "小鹏汽车",
+    "tier": "mid_size"
+  },
+  "XPeng": {
+    "canonical": "小鹏汽车",
+    "tier": "mid_size"
+  },
+  "Shopee": {
+    "canonical": "Shopee",
+    "tier": "mid_size"
+  },
+  "虾皮": {
+    "canonical": "Shopee",
+    "tier": "mid_size"
+  },
+  "深圳虾皮信息科技有限公司": {
+    "canonical": "Shopee",
+    "tier": "mid_size"
+  },
+  "货拉拉": {
+    "canonical": "货拉拉",
+    "tier": "mid_size"
+  },
+  "Lalamove": {
+    "canonical": "货拉拉",
+    "tier": "mid_size"
+  },
+  "同程旅行": {
+    "canonical": "同程旅行",
+    "tier": "mid_size"
+  },
+  "同程": {
+    "canonical": "同程旅行",
+    "tier": "mid_size"
+  },
+  "Tongcheng Travel": {
+    "canonical": "同程旅行",
+    "tier": "mid_size"
+  },
+  "中兴通讯": {
+    "canonical": "中兴通讯",
+    "tier": "mid_size"
+  },
+  "中兴": {
+    "canonical": "中兴通讯",
+    "tier": "mid_size"
+  },
+  "ZTE": {
+    "canonical": "中兴通讯",
+    "tier": "mid_size"
+  },
+  "海康威视": {
+    "canonical": "海康威视",
+    "tier": "mid_size"
+  },
+  "Hikvision": {
+    "canonical": "海康威视",
+    "tier": "mid_size"
+  },
+  "月之暗面": {
+    "canonical": "月之暗面",
+    "tier": "unicorn"
+  },
+  "Moonshot AI": {
+    "canonical": "月之暗面",
+    "tier": "unicorn"
+  },
+  "Kimi": {
+    "canonical": "月之暗面",
+    "tier": "unicorn"
+  },
+  "智谱AI": {
+    "canonical": "智谱AI",
+    "tier": "unicorn"
+  },
+  "智谱华章": {
+    "canonical": "智谱AI",
+    "tier": "unicorn"
+  },
+  "Zhipu AI": {
+    "canonical": "智谱AI",
+    "tier": "unicorn"
+  },
+  "MiniMax": {
+    "canonical": "MiniMax",
+    "tier": "unicorn"
+  },
+  "稀宇科技": {
+    "canonical": "MiniMax",
+    "tier": "unicorn"
+  },
+  "阶跃星辰": {
+    "canonical": "阶跃星辰",
+    "tier": "unicorn"
+  },
+  "StepFun": {
+    "canonical": "阶跃星辰",
+    "tier": "unicorn"
+  },
+  "百川智能": {
+    "canonical": "百川智能",
+    "tier": "unicorn"
+  },
+  "Baichuan AI": {
+    "canonical": "百川智能",
+    "tier": "unicorn"
+  },
+  "地平线": {
+    "canonical": "地平线",
+    "tier": "unicorn"
+  },
+  "Horizon Robotics": {
+    "canonical": "地平线",
+    "tier": "unicorn"
+  },
+  "地平线机器人": {
+    "canonical": "地平线",
+    "tier": "unicorn"
+  },
+  "Momenta": {
+    "canonical": "Momenta",
+    "tier": "unicorn"
+  },
+  "魔门塔": {
+    "canonical": "Momenta",
+    "tier": "unicorn"
+  },
+  "文远知行": {
+    "canonical": "文远知行",
+    "tier": "unicorn"
+  },
+  "WeRide": {
+    "canonical": "文远知行",
+    "tier": "unicorn"
+  },
+  "小马智行": {
+    "canonical": "小马智行",
+    "tier": "unicorn"
+  },
+  "Pony.ai": {
+    "canonical": "小马智行",
+    "tier": "unicorn"
+  },
+  "影石创新": {
+    "canonical": "影石创新",
+    "tier": "unicorn"
+  },
+  "Insta360": {
+    "canonical": "影石创新",
+    "tier": "unicorn"
+  },
+  "追觅科技": {
+    "canonical": "追觅科技",
+    "tier": "unicorn"
+  },
+  "Dreame": {
+    "canonical": "追觅科技",
+    "tier": "unicorn"
+  },
+  "新石器无人车": {
+    "canonical": "新石器无人车",
+    "tier": "unicorn"
+  },
+  "Neolix": {
+    "canonical": "新石器无人车",
+    "tier": "unicorn"
+  },
+  "深势科技": {
+    "canonical": "深势科技",
+    "tier": "growth"
+  },
+  "DP Technology": {
+    "canonical": "深势科技",
+    "tier": "growth"
+  },
+  "第四范式": {
+    "canonical": "第四范式",
+    "tier": "growth"
+  },
+  "4Paradigm": {
+    "canonical": "第四范式",
+    "tier": "growth"
+  },
+  "星环科技": {
+    "canonical": "星环科技",
+    "tier": "growth"
+  },
+  "Transwarp": {
+    "canonical": "星环科技",
+    "tier": "growth"
+  },
+  "联影医疗": {
+    "canonical": "联影医疗",
+    "tier": "growth"
+  },
+  "United Imaging": {
+    "canonical": "联影医疗",
+    "tier": "growth"
+  },
+  "云天励飞": {
+    "canonical": "云天励飞",
+    "tier": "growth"
+  },
+  "Intellifusion": {
+    "canonical": "云天励飞",
+    "tier": "growth"
+  },
+  "黑芝麻智能": {
+    "canonical": "黑芝麻智能",
+    "tier": "growth"
+  },
+  "Black Sesame Technologies": {
+    "canonical": "黑芝麻智能",
+    "tier": "growth"
+  },
+  "原力灵机": {
+    "canonical": "原力灵机",
+    "tier": "growth"
+  },
+  "Dexmal": {
+    "canonical": "原力灵机",
+    "tier": "growth"
+  },
+  "杉川机器人": {
+    "canonical": "杉川机器人",
+    "tier": "growth"
+  },
+  "3irobotix": {
+    "canonical": "杉川机器人",
+    "tier": "growth"
+  }
+}

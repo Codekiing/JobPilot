@@ -22,7 +22,12 @@ def deduplicate(jobs: list[Job]) -> list[Job]:
         broad_key = (_key(job.company), _key(job.title), location)
         if broad_key in semantic and broad_key[0] and broad_key[1]:
             existing = result[semantic[broad_key]]
-            if len(job.description) + len(job.requirements) > len(existing.description) + len(existing.requirements):
+            existing_quality = 2 if existing.source_kind == "official" else 1 if existing.application_url else 0
+            job_quality = 2 if job.source_kind == "official" else 1 if job.application_url else 0
+            if job_quality > existing_quality or (
+                job_quality == existing_quality
+                and len(job.description) + len(job.requirements) > len(existing.description) + len(existing.requirements)
+            ):
                 result[semantic[broad_key]] = job
             continue
         semantic[broad_key] = len(result)

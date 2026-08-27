@@ -5,12 +5,16 @@ import json
 from pathlib import Path
 
 from .engine import MatchEngine
+from .company_catalog import TIER_ORDER, load_default_catalog
 from .profile import find_latest_profile, load_profile
 from .providers import (
     BossProvider,
+    BrowserOfficialProvider,
     CompanyCareersProvider,
+    CompanyCatalogProvider,
     ImportProvider,
     NowcoderProvider,
+    NowcoderMajorCompanyProvider,
     OfferShowProvider,
     ShixisengProvider,
 )
@@ -37,6 +41,8 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--offline", action="store_true", help="不访问在线渠道，仅处理导入文件")
     parser.add_argument("--import-jobs", type=Path, action="append", default=[], help="导入 JSON/CSV 岗位，可重复")
     parser.add_argument("--career-url", action="append", default=[], help="含 JobPosting JSON-LD 的公司招聘官网，可重复")
+    parser.add_argument("--skip-official", action="store_true", help="跳过维护清单中的企业官网（默认先搜索官网）")
+    parser.add_argument("--company-tiers", default=",".join(TIER_ORDER), help="官网搜索层级：major,mid_size,unicorn,growth")
     parser.add_argument("--json", action="store_true", help="在终端输出完整 JSON")
     return parser
 
@@ -46,6 +52,16 @@ def _providers(args) -> list:
     providers = []
     if args.import_jobs:
         providers.append(ImportProvider(args.import_jobs, **kwargs))
+    catalog = load_default_catalog()
+    if not args.offline and not args.skip_official:
+        tiers = [value.strip() for value in args.company_tiers.split(",") if value.strip()]
+        unknown_tiers = set(tiers) - set(TIER_ORDER)
+        if unknown_tiers:
+            raise ValueError("未知公司层级：" + ", ".join(sorted(unknown_tiers)))
+        providers.append(CompanyCatalogProvider(catalog, tiers=tiers, timeout=min(args.timeout, 8), max_jobs=max(500, args.max_per_source)))
+        if "major" in tiers:
+            providers.append(BrowserOfficialProvider(timeout=max(args.timeout, 20), max_jobs=max(100, args.max_per_source)))
+            providers.append(NowcoderMajorCompanyProvider(catalog, timeout=args.timeout, max_jobs=max(900, args.max_per_source)))
     if args.career_url and not args.offline:
         providers.append(CompanyCareersProvider(args.career_url, **kwargs))
     if not args.offline:
@@ -75,7 +91,7 @@ def main(argv: list[str] | None = None) -> int:
         providers = _providers(args)
     except ValueError as exc:
         raise SystemExit(str(exc)) from exc
-    run = MatchEngine(providers).run(
+    run = MatchEngine(providers, company_catalog=load_default_catalog()).run(
         profile,
         queries=args.query,
         min_score=max(0, args.min_score),

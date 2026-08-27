@@ -9,6 +9,8 @@ inputs/ 中的简历
     ↓ resume.json
 用户画像建立组件（profile_builder）
     ↓ profile.json
+岗位候选池（企业官网优先，公开平台补充）
+    ↓ 标准化 / 跨渠道去重 / 来源覆盖报告
 岗位匹配组件（matcher）
     ↓ jobs.json / jobs.csv / jobs.md
 岗位过滤组件（filter）
@@ -52,7 +54,8 @@ inputs/ 中的简历
 - 输入：`profile_builder/outputs/.../profile.json`，以及公开招聘渠道或用户导入的 JSON/CSV 岗位数据。
 - 输出：`matcher/outputs/<profile_id>/<运行时间>/` 下的 `jobs.json`、`jobs.csv` 和 `jobs.md`。
 
-- 已接入牛客网、OfferShow 和实习僧的公开岗位数据。
+- 默认先逐家公司搜索维护清单中的大厂、中型公司、独角兽和成长型公司官网，再使用牛客网、OfferShow、实习僧和 BOSS 公开入口补充候选池。
+- 官网搜索失败会记录为覆盖缺口，不会被解释成“该公司没有相关岗位”。
 - BOSS 遇到环境校验时返回浏览器搜索入口，不绕过验证。
 - 支持读取公司招聘官网的 `JobPosting` 数据，以及导入任意渠道的 JSON/CSV 导出文件。
 - 结果保存在 `matcher/outputs/`，同时生成 JSON、CSV 和 Markdown 汇总表。
@@ -75,11 +78,11 @@ inputs/ 中的简历
 读取用户画像和过滤组件导出的待投递岗位表，生成逐岗位申请草稿，并可在用户逐站点确认后辅助填写招聘页面。
 
 - 输入：`profile.json`、filter 导出的 `selected-jobs.json`，以及公司官方招聘入口配置。
-- 输出：`fill-plan.json`、逐岗位本地草稿、浏览器填充报告，以及经用户确认后保存在招聘网站账户中的草稿。
+- 输出：包含共享字段与逐岗位计划的 `fill-plan.json`、浏览器填充报告，以及经用户确认后保存在招聘网站账户中的草稿。
 
 - 默认只生成本地草稿，不访问招聘网站、不发送个人信息；执行模式会先打开公司官方招聘入口，等待用户手动登录和进入申请表。
 - 浏览器执行会等待用户完成登录，并在发送姓名、联系方式和经历前再次确认。
-- 只填充唯一识别的字段；不上传附件、不处理验证码、不自动提交申请。
+- 只填充唯一识别的文本框和下拉框；简历附件必须显式配置并逐岗位确认，不处理验证码、不自动提交申请。
 - 真实填入和保存网站草稿均需要分别确认；本地始终保存字段映射和执行报告。
 - 详细说明见 [filler/README.md](filler/README.md)。
 
@@ -130,6 +133,8 @@ PYTHONPATH=filter python3 -m job_filter
 # 根据画像和 filter 导出结果生成本地填表草稿
 PYTHONPATH=filler python3 -m filler --jobs filler/inputs/selected-jobs.json
 
-# 启动本地统一 API
-python3 -m jobpilot --host 127.0.0.1 --port 8765
+# 启动本地统一 API（uv 会按根目录 pyproject.toml 安装 PDF、Word 与岗位采集依赖）
+uv run --python 3.12 python -m jobpilot --host 127.0.0.1 --port 8765
 ```
+
+网页前端会自动检查 `http://127.0.0.1:8765/jobpilot`。连接成功后，上传简历会真实调用 `extractor` 和 `profile_builder` 填充待确认画像；用户补充并确认保存后，`matcher` 才会动态搜索官网与公开平台并返回岗位。未启动本地 API 时，网页只展示示例画像且岗位列表为空，不会模拟解析或岗位搜索成功。

@@ -25,11 +25,81 @@
         }
       }
     },
+    "/jobpilot/state": {
+      "get": {
+        "summary": "Get the latest locally persisted resume and profile",
+        "description": "Returns the newest resume_splitter and profile_builder outputs so the browser can synchronize after refresh and dynamically rerank jobs.",
+        "responses": {
+          "200": {"description": "Latest structured resume summary and full profile"},
+          "500": {"description": "Latest local output cannot be read"}
+        }
+      }
+    },
     "/jobpilot/openapi.json": {
       "get": {
         "summary": "Get this OpenAPI document",
         "responses": {
           "200": {"description": "OpenAPI 3.1 document"}
+        }
+      }
+    },
+    "/jobpilot/resume": {
+      "post": {
+        "summary": "Parse a browser-uploaded resume with local components",
+        "description": "Accepts a Base64-encoded resume, runs resume_splitter and profile_builder locally, and returns both structured outputs.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["filename", "content_base64"],
+                "properties": {
+                  "filename": {"type": "string"},
+                  "content_base64": {"type": "string", "contentEncoding": "base64"},
+                  "save": {"type": "boolean", "default": true},
+                  "upload_dir": {"type": "string", "default": "inputs/browser-uploads"},
+                  "extractor_output_dir": {"type": "string", "default": "extractor/outputs"},
+                  "profile_output_dir": {"type": "string", "default": "profile_builder/outputs"}
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {"description": "Structured resume and profile from local components"},
+          "400": {"description": "Invalid or unsupported resume"},
+          "413": {"description": "Resume exceeds the 8MB limit"},
+          "500": {"description": "Local extraction error"}
+        }
+      }
+    },
+    "/jobpilot/rank": {
+      "post": {
+        "summary": "Rank frontend jobs with the local matcher",
+        "description": "Scores 1 to 500 supplied jobs against a structured profile without external network access.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "profile_json": {"type": "string"},
+                  "profile": {"type": "object"},
+                  "jobs": {"type": "array", "minItems": 1, "maxItems": 500, "items": {"type": "object"}}
+                },
+                "required": ["jobs"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {"description": "Matcher scores and reasons"},
+          "400": {"description": "Invalid profile or jobs"},
+          "500": {"description": "Local matcher error"}
         }
       }
     },
@@ -44,6 +114,7 @@
                 "type": "object",
                 "additionalProperties": false,
                 "properties": {
+                  "profile": {"type": "object", "description": "Complete structured profile submitted by the local web UI for persistence"},
                   "resume_json": {"type": "string", "description": "Project-relative component-one resume.json path"},
                   "profile_json": {"type": "string", "description": "Project-relative existing profile.json path"},
                   "survey_answers": {
@@ -76,7 +147,7 @@
     "/jobpilot/match": {
       "post": {
         "summary": "Collect and match jobs for a user profile",
-        "description": "Offline by default. Public recruitment sources are accessed only when online is explicitly true.",
+        "description": "Offline by default. When online is explicitly true, maintained company career sites are searched first, then public recruitment platforms supplement the candidate pool before matching.",
         "requestBody": {
           "required": true,
           "content": {
@@ -86,7 +157,15 @@
                 "additionalProperties": false,
                 "properties": {
                   "profile_json": {"type": "string", "description": "Project-relative profile.json; latest profile is used when omitted"},
+                  "profile": {"type": "object", "description": "Inline structured profile; cannot be combined with profile_json"},
                   "online": {"type": "boolean", "default": false},
+                  "official_first": {"type": "boolean", "default": true},
+                  "company_tiers": {
+                    "type": "array",
+                    "items": {"enum": ["major", "mid_size", "unicorn", "growth"]},
+                    "default": ["major", "mid_size", "unicorn", "growth"]
+                  },
+                  "career_urls": {"type": "array", "items": {"type": "string"}, "default": []},
                   "sources": {
                     "type": "array",
                     "items": {"enum": ["boss", "shixiseng", "nowcoder", "offershow"]}
@@ -154,6 +233,7 @@
                 "properties": {
                   "profile_json": {"type": "string", "description": "Project-relative profile.json; latest profile is used when omitted"},
                   "selected_jobs_json": {"type": "string", "description": "Project-relative selected-jobs.json exported by filter"},
+                  "resume_file": {"type": "string", "description": "Optional project-relative resume attachment. The API records it in the local plan but never uploads it."},
                   "official_sites_json": {"type": "string", "default": "filler/config/official_sites.json", "description": "Project-relative verified company career-site mapping"},
                   "output_dir": {"type": "string", "default": "filler/outputs"}
                 }

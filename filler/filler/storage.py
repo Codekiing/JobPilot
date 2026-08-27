@@ -13,12 +13,8 @@ from .models import FillPlan
 def save_plan(plan: FillPlan, output_root: Path) -> Path:
     stamp = datetime.now().strftime("%Y%m%d-%H%M%S")
     run_dir = output_root.resolve() / plan.profile_id / stamp
-    drafts_dir = run_dir / "application-drafts"
-    drafts_dir.mkdir(parents=True, exist_ok=True)
     payload = plan.to_dict()
     _private_json(run_dir / "fill-plan.json", payload)
-    for application in payload["applications"]:
-        _private_json(drafts_dir / f"{application['draft_id']}.json", application)
     manifest = {
         "latest": str(run_dir.resolve()),
         "profile_id": plan.profile_id,
@@ -26,6 +22,7 @@ def save_plan(plan: FillPlan, output_root: Path) -> Path:
         "created_at": plan.created_at,
         "source_profile_json": plan.source_profile_json,
         "source_selected_jobs_json": plan.source_selected_jobs_json,
+        "resume_file": plan.resume_file,
     }
     output_root.mkdir(parents=True, exist_ok=True)
     _private_json(output_root / "manifest.json", manifest)

@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "jobpilot-filler"
-version = "0.1.0"
+version = "0.4.0"
 description = "JobPilot 招聘页面个人信息填充与本地草稿组件"
 requires-python = ">=3.10"
 

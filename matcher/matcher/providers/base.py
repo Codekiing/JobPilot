@@ -8,6 +8,8 @@ from ..models import ProviderResult
 
 class Provider(ABC):
     name: str
+    priority: int = 50
+    source_kind: str = "public_platform"
 
     def __init__(self, *, timeout: float = 15, max_jobs: int = 30) -> None:
         self.timeout = timeout

@@ -7,6 +7,7 @@ from typing import Any
 from ..http import request_json
 from ..models import Job, ProviderResult
 from ..profile import employment_types
+from ..company_catalog import CompanyCatalog
 from .base import Provider
 
 
@@ -144,5 +145,80 @@ class NowcoderProvider(Provider):
                 result.status = "partial" if result.jobs else "failed"
                 result.warnings.append(f"采集失败：{type(exc).__name__}: {exc}")
         if not result.jobs and result.status == "success":
+            result.status = "empty"
+        return result
+
+
+class NowcoderMajorCompanyProvider(NowcoderProvider):
+    """Query every major company by name when its official site is opaque.
+
+    Results remain labelled as Nowcoder discoveries. This is a coverage
+    fallback, not an attempt to present platform data as official data.
+    """
+
+    name = "nowcoder_company_search"
+    priority = 35
+
+    def __init__(self, catalog: CompanyCatalog, **kwargs: Any) -> None:
+        super().__init__(**kwargs)
+        self.catalog = catalog
+
+    def collect(self, profile: dict[str, Any], queries: list[str]) -> ProviderResult:
+        recruit_type = self._recruit_type(profile)
+        center = {1: "school/jobs", 2: "intern/center", 3: "fulltime/center"}[recruit_type]
+        targets = self.catalog.selected(["major"])
+        result = ProviderResult(
+            source=self.name,
+            status="success",
+            queries=queries,
+            discovery_urls=[f"https://mnowpick.nowcoder.com/jobs/{center}"],
+            metadata={"phase": "major_company_fallback", "planned_companies": len(targets)},
+        )
+        seen: set[str] = set()
+        company_counts: dict[str, int] = {}
+        page_size = min(50, max(10, self.max_jobs))
+        for target in targets:
+            try:
+                response = request_json(
+                    self.endpoint,
+                    timeout=self.timeout,
+                    method="POST",
+                    form={
+                        "page": 1,
+                        "pageSize": page_size,
+                        "recruitType": recruit_type,
+                        "query": target.name,
+                        "random": "false",
+                        "recommend": "false",
+                        "requestFrom": 1,
+                    },
+                    headers={"Referer": f"https://mnowpick.nowcoder.com/jobs/{center}"},
+                )
+                if response.get("code") != 0:
+                    raise RuntimeError(response.get("msg") or f"响应码 {response.get('code')}")
+                count = 0
+                for raw in (response.get("data") or {}).get("datas", []):
+                    job = self._parse(raw, recruit_type)
+                    if not job or job.source_job_id in seen:
+                        continue
+                    identified = self.catalog.identify(job.company)
+                    if not identified or identified.name != target.name:
+                        continue
+                    seen.add(job.source_job_id)
+                    result.jobs.append(job)
+                    count += 1
+                    if len(result.jobs) >= self.max_jobs:
+                        break
+                company_counts[target.name] = count
+            except Exception as exc:
+                company_counts[target.name] = 0
+                result.warnings.append(f"{target.name}: {type(exc).__name__}: {exc}")
+            if len(result.jobs) >= self.max_jobs:
+                break
+        result.metadata["companies_with_jobs"] = sum(count > 0 for count in company_counts.values())
+        result.metadata["company_job_counts"] = company_counts
+        if result.warnings:
+            result.status = "partial" if result.jobs else "failed"
+        elif not result.jobs:
             result.status = "empty"
         return result

@@ -22,24 +22,30 @@ class BrowserIntegrationTests(unittest.TestCase):
             {"key": "email", "value": "user@example.com", "aliases": ["邮箱", "电子邮箱", "email"]},
             {"key": "phone", "value": "13800000000", "aliases": ["手机号码", "电话", "mobile"]},
             {"key": "current_city", "value": "深圳", "aliases": ["现居城市", "current city"]},
+            {"key": "highest_degree", "value": "硕士", "aliases": ["最高学历", "学历", "degree"]},
+            {"key": "preferred_locations", "value": "深圳", "aliases": ["意向城市", "preferred city"]},
             {"key": "skills", "value": "Python、机器学习", "aliases": ["技能", "skills"]},
         ]
-        plan = {
-            "applications": [{
-                "draft_id": draft_id,
-                "company": "示例科技",
-                "title": "算法工程师",
-                "application_url": mock_page.resolve().as_uri(),
-                "fields": fields,
-            }]
-        }
-        answers = iter([
-            f"READY {draft_id}",
-            f"FILL {draft_id}",
-            f"SAVE {draft_id}",
-        ])
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
+            resume = root / "resume.pdf"
+            resume.write_bytes(b"%PDF-1.4\n% JobPilot upload test\n")
+            plan = {
+                "fields": fields,
+                "resume_file": str(resume),
+                "applications": [{
+                    "draft_id": draft_id,
+                    "company": "示例科技",
+                    "title": "算法工程师",
+                    "application_url": mock_page.resolve().as_uri(),
+                }]
+            }
+            answers = iter([
+                f"READY {draft_id}",
+                f"FILL {draft_id}",
+                f"UPLOAD {draft_id}",
+                f"SAVE {draft_id}",
+            ])
             reports = execute_plan(
                 plan,
                 run_dir=root,
@@ -51,8 +57,40 @@ class BrowserIntegrationTests(unittest.TestCase):
             report = json.loads(reports[0].read_text(encoding="utf-8"))
         self.assertTrue(report["remote_draft_saved"])
         self.assertEqual(report["remote_save_status"], "confirmed_by_page")
+        self.assertTrue(report["resume_uploaded"])
+        self.assertEqual(report["resume_upload_status"], "uploaded_verified")
         self.assertTrue(all(item["status"] == "filled_verified" for item in report["fields"] if item["key"] in {f["key"] for f in fields}))
         self.assertFalse(report["automatic_submit"])
+
+    def test_resume_upload_requires_separate_confirmation(self):
+        draft_id = "draft-upload-declined"
+        mock_page = Path(__file__).parents[1] / "examples" / "mock-career.html"
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            resume = root / "resume.pdf"
+            resume.write_bytes(b"%PDF-1.4\n")
+            plan = {
+                "fields": [{"key": "full_name", "value": "测试用户", "aliases": ["姓名", "name"]}],
+                "resume_file": str(resume),
+                "applications": [{
+                    "draft_id": draft_id,
+                    "company": "示例科技",
+                    "title": "算法工程师",
+                    "application_url": mock_page.resolve().as_uri(),
+                }],
+            }
+            answers = iter([f"READY {draft_id}", f"FILL {draft_id}", "不上传"])
+            reports = execute_plan(
+                plan,
+                run_dir=root,
+                browser_profile=root / "browser-profile",
+                headless=True,
+                save_remote_draft=False,
+                input_func=lambda _: next(answers),
+            )
+            report = json.loads(reports[0].read_text(encoding="utf-8"))
+        self.assertFalse(report["resume_uploaded"])
+        self.assertEqual(report["resume_upload_status"], "user_declined")
 
 
 if __name__ == "__main__":
